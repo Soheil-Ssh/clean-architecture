@@ -7,3 +7,4 @@ global using CleanArch.Api.Common.Extensions;
 global using CleanArch.Api.Contracts.Common;
 global using CleanArch.Core.Abstractions.Error;
 global using CleanArch.Core.Abstractions.Result;
+global using CleanArch.Core.Specifications.Common;

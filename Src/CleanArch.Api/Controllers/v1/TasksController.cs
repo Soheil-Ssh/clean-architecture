@@ -2,6 +2,7 @@
 using CleanArch.Api.Contracts.ToDo.Responses;
 using CleanArch.Application.Features.ToDo.Commands.CreateToDo;
 using CleanArch.Application.Features.ToDo.Common;
+using CleanArch.Application.Features.ToDo.Queries.GetAllToDos;
 using CleanArch.Application.Features.ToDo.Queries.GetToDoById;
 
 namespace CleanArch.Api.Controllers.v1;
@@ -10,6 +11,19 @@ namespace CleanArch.Api.Controllers.v1;
 [Route("api/v{v:apiVersion}/[controller]")]
 public class TasksController(IMediator mediator, IMapper mapper) : BaseController
 {
+    /// <summary>
+    /// Get action for get all to dos with pagination and filter by search query and completion status
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<IActionResult> GetAllToDos([FromQuery] GetAllToDosRequest request)
+    {
+        var result = await mediator
+            .Send(new GetAllToDosQuery(request.SearchQuery, request.IsCompleted, request.Page, request.PageSize));
+        return result.ToActionResult<Pagination<ToDoDto>, Pagination<GetAllToDosResponse>>(mapper);
+    }
+
     /// <summary>
     /// Get action for get to do by id
     /// </summary>

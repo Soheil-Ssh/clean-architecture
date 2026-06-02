@@ -13,6 +13,9 @@ public class ToDoMapperProfile : Profile
         CreateMap<CreateToDoRequest, CreateToDoCommand>();
 
         // Map ToDoDto => GetToDoByIdResponse
-        CreateMap<ToDoDto, GetToDoByIdResponse> ();
+        CreateMap<ToDoDto, GetToDoByIdResponse>();
+
+        // Map ToDoDto => GetAllToDosResponse
+        CreateMap<ToDoDto, GetAllToDosResponse>();
     }
 }
