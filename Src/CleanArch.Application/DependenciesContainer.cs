@@ -12,7 +12,7 @@ public static class DependenciesContainer
         services.AddMediatR(options =>
             options.RegisterServicesFromAssemblyContaining(typeof(DependenciesContainer)));
 
-        // add Auto mapper
+        // add Application layer Auto mapper
         services.AddAutoMapper(cfg => { }, typeof(DependenciesContainer).Assembly);
 
         // add Fluent validation

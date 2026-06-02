@@ -1,3 +1,3 @@
 ﻿namespace CleanArch.Api.Contracts.ToDo.Requests;
 
-public record CreateToDoRequest(string Title, string? Description);
+public sealed record CreateToDoRequest(string Title, string? Description);

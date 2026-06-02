@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\ToDo\Responses\" />
     <Folder Include="Controllers\Base\" />
   </ItemGroup>
 

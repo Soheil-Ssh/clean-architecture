@@ -10,6 +10,7 @@ var configuration = builder.Configuration;
 services.AddControllers();
 services.AddInfrastructure(configuration);
 services.AddApplication();
+services.AddAutoMapper(cfg => { }, typeof(Program).Assembly);
 services.AddExceptionHandler<ValidationExceptionHandler>();
 services.AddExceptionHandler<GlobalExceptionHandler>();
 services.AddProblemDetails();
