@@ -159,4 +159,4 @@ Update-Database
 dotnet run --project Src/CleanArch.Api
 ```
 
-پس از اجرای پروژه، می‌توانید از طریق رابط کاربری Scalar (که جایگزینی مدرن برای Swagger است) با APIها کار کنید.
+بعد از اجرای پروژه می‌تواند با استفاده از Scalar که در آدرس https://localhost:port/scalar موجود است Endpoint ها را تست کنید.
