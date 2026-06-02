@@ -19,7 +19,7 @@ public class TasksController(IMediator mediator, IMapper mapper) : BaseControlle
     /// <param name="request"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<IActionResult> GetAllToDos([FromQuery] GetAllToDosRequest request)
+    public async Task<IActionResult> GetAll([FromQuery] GetAllToDosRequest request)
     {
         var result = await mediator
             .Send(new GetAllToDosQuery(request.SearchQuery, request.IsCompleted, request.Page, request.PageSize));
@@ -32,7 +32,7 @@ public class TasksController(IMediator mediator, IMapper mapper) : BaseControlle
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id:long}")]
-    public async Task<IActionResult> GetToDoById(long id)
+    public async Task<IActionResult> GetById(long id)
     {
         var result = await mediator.Send(new GetToDoByIdQuery(id));
         return result.ToActionResult<ToDoDto, GetToDoByIdResponse>(mapper);
