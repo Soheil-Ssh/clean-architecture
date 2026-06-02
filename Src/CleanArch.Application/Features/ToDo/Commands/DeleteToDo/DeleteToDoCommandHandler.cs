@@ -2,6 +2,11 @@
 
 namespace CleanArch.Application.Features.ToDo.Commands.DeleteToDo;
 
+/// <summary>
+/// Delete to do command handler
+/// </summary>
+/// <param name="unitOfWork"></param>
+/// <param name="mapper"></param>
 public class DeleteToDoCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) 
     : IRequestHandler<DeleteToDoCommand, Result>
 {
