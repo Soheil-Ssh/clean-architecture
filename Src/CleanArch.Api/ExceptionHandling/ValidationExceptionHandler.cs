@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace CleanArch.Api.ExceptionHandling;
 

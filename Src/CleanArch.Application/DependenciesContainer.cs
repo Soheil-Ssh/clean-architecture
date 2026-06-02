@@ -1,5 +1,4 @@
 ﻿using CleanArch.Application.Behaviors;
-using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArch.Application;

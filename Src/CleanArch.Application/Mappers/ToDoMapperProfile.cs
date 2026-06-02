@@ -1,4 +1,5 @@
 ﻿using CleanArch.Application.Features.ToDo.Commands.CreateToDo;
+using CleanArch.Application.Features.ToDo.Commands.UpdateToDo;
 using CleanArch.Application.Features.ToDo.Common;
 using CleanArch.Core.Entities.ToDo;
 
@@ -13,5 +14,8 @@ public class ToDoMapperProfile : Profile
 
         // Map ToDo => ToDoDto
         CreateMap<ToDo, ToDoDto>();
+
+        // Map UpdateToDoCommand => ToDo
+        CreateMap<UpdateToDoCommand, ToDo>();
     }
 }

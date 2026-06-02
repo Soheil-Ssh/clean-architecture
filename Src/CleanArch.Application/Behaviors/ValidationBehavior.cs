@@ -1,4 +1,4 @@
-﻿using FluentValidation;
+﻿using ValidationException = FluentValidation.ValidationException;
 
 namespace CleanArch.Application.Behaviors;
 

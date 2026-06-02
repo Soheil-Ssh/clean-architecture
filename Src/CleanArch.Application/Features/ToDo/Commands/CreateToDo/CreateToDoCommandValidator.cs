@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace CleanArch.Application.Features.ToDo.Commands.CreateToDo;
+﻿namespace CleanArch.Application.Features.ToDo.Commands.CreateToDo;
 
 public class CreateToDoCommandValidator : AbstractValidator<CreateToDoCommand>
 {

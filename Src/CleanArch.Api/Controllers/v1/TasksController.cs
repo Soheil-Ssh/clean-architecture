@@ -1,7 +1,8 @@
 ﻿using CleanArch.Api.Contracts.ToDo.Requests;
 using CleanArch.Api.Contracts.ToDo.Responses;
-using CleanArch.Application.Features.ToDo.Commands.CreateToDo;
 using CleanArch.Application.Features.ToDo.Common;
+using CleanArch.Application.Features.ToDo.Commands.CreateToDo;
+using CleanArch.Application.Features.ToDo.Commands.UpdateToDo;
 using CleanArch.Application.Features.ToDo.Queries.GetAllToDos;
 using CleanArch.Application.Features.ToDo.Queries.GetToDoById;
 
@@ -44,6 +45,20 @@ public class TasksController(IMediator mediator, IMapper mapper) : BaseControlle
     public async Task<IActionResult> CreateToDo(CreateToDoRequest request)
     {
         var result = await mediator.Send(new CreateToDoCommand(request.Title, request.Description));
+        return result.ToActionResult();
+    }
+
+    /// <summary>
+    /// Put action for update to do by id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPut("{id:long}")]
+    public async Task<IActionResult> Update([FromRoute] long id, [FromBody] UpdateToDoRequest request)
+    {
+        var result = await mediator
+            .Send(new UpdateToDoCommand(id, request.Title, request.Description));
         return result.ToActionResult();
     }
 }
