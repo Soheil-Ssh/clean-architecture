@@ -9,14 +9,11 @@ public class ToDo : BaseEntity<long>
     /// <summary>
     /// The title of the to-do item. This field is required and cannot exceed 150 characters.
     /// </summary>
-    [Required]
-    [MaxLength(150)]
     public required string Title { get; set; }
 
     /// <summary>
     /// An optional longer description of the task. Maximum length is 1000 characters.
     /// </summary>
-    [MaxLength(1000)]
     public string? Description { get; set; }
 
     /// <summary>

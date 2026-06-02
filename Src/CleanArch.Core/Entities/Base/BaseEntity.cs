@@ -9,7 +9,6 @@ public abstract class BaseEntity<TKey>
     /// <summary>
     /// The primary key of the entity.
     /// </summary>
-    [Key]
     public TKey Id { get; set; } = default!;
 
     /// <summary>
