@@ -1,13 +1,38 @@
 # 🏛 Clean Architecture Sample (.NET 10)
 
+<p align="center">
+  <a href="README_EN.md"><img alt="English" src="https://img.shields.io/badge/English-blue"></a>
+  <a href="README.md"><img alt="فارسی" src="https://img.shields.io/badge/فارسی-green"></a>
+</p>
+
 [![.NET](https://img.shields.io/badge/.NET-10-purple)](https://dotnet.microsoft.com/)
-[![License](https://img.shields.io/badge/License-MIT-green)]()
-[![Architecture](https://img.shields.io/badge/Architecture-Clean-blue)]()
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Architecture](https://img.shields.io/badge/Architecture-Clean-blue)](https://github.com/Soheil-Ssh/clean-architecture/tree/master)
 
 یکی از چالش‌های همیشگی برنامه‌نویسان در درک **معماری تمیز (Clean Architecture)**، نبود یک رویکرد واحد و وجود پیاده‌سازی‌های سلیقه‌ای است. دیدن یک نمونه‌ی ساده ولی کامل، به درک بهتر این معماری و الگوهای آن کمک می‌کند.
 به همین دلیل، تصمیم گرفتم این پروژه را به عنوان یک نمونه‌ی استاندارد و قابل فهم در گیت‌هاب قرار دهم.
 
 ![Clean Architecture](./clean_architecture.png "Clean Architecture")
+
+## 📑 فهرست مطالب
+- [🏛 Clean Architecture Sample (.NET 10)](#-clean-architecture-sample-net-10)
+  - [📑 فهرست مطالب](#-فهرست-مطالب)
+  - [📚 در این پروژه چه چیزهایی یاد خواهید گرفت؟](#-در-این-پروژه-چه-چیزهایی-یاد-خواهید-گرفت)
+  - [📋 ویژگی ها](#-ویژگی-ها)
+  - [📋 دامنه پروژه](#-دامنه-پروژه)
+  - [🏗 ساختار پروژه](#-ساختار-پروژه)
+    - [1. لایه Core (هسته سیستم)](#1-لایه-core-هسته-سیستم)
+    - [2. لایه Application](#2-لایه-application)
+    - [3. لایه Infrastructure](#3-لایه-infrastructure)
+    - [4. لایه Presentation (API)](#4-لایه-presentation-api)
+  - [⚠️ نکات مهم](#️-نکات-مهم)
+  - [🚀 راهنمای اجرا](#-راهنمای-اجرا)
+    - [پیش‌نیازها](#پیشنیازها)
+    - [1. دریافت و آماده‌سازی پروژه](#1-دریافت-و-آمادهسازی-پروژه)
+    - [2. تنظیمات دیتابیس](#2-تنظیمات-دیتابیس)
+    - [3. اعمال تغییرات دیتابیس](#3-اعمال-تغییرات-دیتابیس)
+    - [4. اجرای پروژه](#4-اجرای-پروژه)
+
 
 ## 📚 در این پروژه چه چیزهایی یاد خواهید گرفت؟
 
@@ -18,7 +43,7 @@
 - سازمان‌دهی وابستگی‌ها بین لایه‌های مختلف سیستم
 - توسعه APIهای قابل نگهداری و توسعه‌پذیر با ASP.NET Core
 
-## 📋 ویژگی‌ها
+## 📋 ویژگی ها
 
 این پروژه یک پیاده‌سازی کاربردی از معماری تمیز است که از الگوها و تکنولوژی‌های زیر بهره می‌برد:
 
@@ -122,7 +147,7 @@ Src
 - دات نت 10
 - یک نمونه از Sql server (LocalDB یا دیتابیس اصلی)
 
-### ۱. دریافت و آماده‌سازی پروژه
+### 1. دریافت و آماده‌سازی پروژه
 
 ابتدا پروژه را کلون کنید. سپس برای دریافت پکیج‌ها، در Visual Studio روی Solution کلیک راست کرده و Rebuild را بزنید.
 اگر از `dotnet cli` استفاده می‌کنید، وارد پوشه‌ی اصلی پروژه شده و دستور زیر را وارد کنید:
@@ -131,11 +156,15 @@ Src
 dotnet restore
 ```
 
-### ۲. تنظیمات دیتابیس
+### 2. تنظیمات دیتابیس
 
-کانکشن استرینگ (Connection String) مربوط به دیتابیس SQL Server در فایل `appsettings.json` لایه‌ی API قرار دارد. آن را بر اساس تنظیمات نمونه دیتابیس خود تغییر دهید.
+کانکشن استرینگ (Connection String) مربوط به دیتابیس SQL Server در فایل `appsettings.json` لایه‌ی API قرار دارد. آن را بر اساس تنظیمات نمونه دیتابیس خود تغییر دهید. این فایل در آدرس زیر است: 
 
-### ۳. اعمال تغییرات دیتابیس
+```bash
+Src/CleanArch.Api/appsettings.json
+```
+
+### 3. اعمال تغییرات دیتابیس
 
 در محیط `dotnet cli`:
 در پوشه‌ی اصلی پروژه، دستور زیر را اجرا کنید تا دیتابیس ساخته شود:
@@ -151,7 +180,7 @@ dotnet ef database update --project Src/CleanArch.Infrastructure --startup-proje
 Update-Database
 ```
 
-### ۴. اجرای پروژه
+### 4. اجرای پروژه
 
 در Visual Studio با زدن کلید F5 و در dotnet cli با دستور زیر می‌توانید پروژه را اجرا کنید:
 
@@ -159,4 +188,6 @@ Update-Database
 dotnet run --project Src/CleanArch.Api
 ```
 
-بعد از اجرای پروژه می‌تواند با استفاده از Scalar که در آدرس https://localhost:port/scalar موجود است Endpoint ها را تست کنید.
+بعد از اجرای پروژه می‌تواند Api Endpointها را با استفاده از Scalar تست کنید:
+
+https://localhost:{port}/scalar
