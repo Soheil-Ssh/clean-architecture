@@ -1,8 +1,9 @@
 ﻿using CleanArch.Api.Contracts.ToDo.Requests;
 using CleanArch.Api.Contracts.ToDo.Responses;
-using CleanArch.Application.Features.ToDo.Common;
 using CleanArch.Application.Features.ToDo.Commands.CreateToDo;
+using CleanArch.Application.Features.ToDo.Commands.DeleteToDo;
 using CleanArch.Application.Features.ToDo.Commands.UpdateToDo;
+using CleanArch.Application.Features.ToDo.Common;
 using CleanArch.Application.Features.ToDo.Queries.GetAllToDos;
 using CleanArch.Application.Features.ToDo.Queries.GetToDoById;
 
@@ -42,7 +43,7 @@ public class TasksController(IMediator mediator, IMapper mapper) : BaseControlle
     /// </summary>
     /// <param name="request"></param>
     [HttpPost]
-    public async Task<IActionResult> CreateToDo(CreateToDoRequest request)
+    public async Task<IActionResult> Create(CreateToDoRequest request)
     {
         var result = await mediator.Send(new CreateToDoCommand(request.Title, request.Description));
         return result.ToActionResult();
@@ -59,6 +60,18 @@ public class TasksController(IMediator mediator, IMapper mapper) : BaseControlle
     {
         var result = await mediator
             .Send(new UpdateToDoCommand(id, request.Title, request.Description));
+        return result.ToActionResult();
+    }
+
+    /// <summary>
+    /// Delete action for delete to do by id
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("{id:long}")]
+    public async Task<IActionResult> Delete(long id)
+    {
+        var result = await mediator.Send(new DeleteToDoCommand(id));
         return result.ToActionResult();
     }
 }
