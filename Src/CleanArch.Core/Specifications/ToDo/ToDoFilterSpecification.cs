@@ -6,7 +6,7 @@ namespace CleanArch.Core.Specifications.ToDo;
 /// Defines a specification for filtering and paginating <see cref="ToDo"/> entities
 /// by title search, completion status, and creation date.
 /// </summary>
-public class ToDoFilterSpecification : BaseSpecification<Entities.ToDo.ToDo>
+public sealed class ToDoFilterSpecification : BaseSpecification<Entities.ToDo.ToDo>
 {
     /// <summary>
     /// Initializes a new instance with the given filter, pagination, and ordering parameters.
