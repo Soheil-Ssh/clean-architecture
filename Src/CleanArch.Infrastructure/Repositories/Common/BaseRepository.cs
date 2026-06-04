@@ -45,30 +45,35 @@ public class BaseRepository<TKey, TEntity> : IBaseRepository<TKey, TEntity> wher
 
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? expression = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes)
     {
         var query = BuildQuery(expression, order, true, false, includes);
-        return await query.ToListAsync();
+        return await query.ToListAsync(cancellationToken: cancellationToken);
     }
 
     public virtual async Task<IEnumerable<TResult>> GetAllAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>>? expression = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes)
     {
         var query = BuildQuery(expression, order, true, false, includes);
-        return await query.Select(selector).ToListAsync();
+        return await query.Select(selector)
+            .ToListAsync(cancellationToken: cancellationToken);
     }
 
     public virtual async Task<IEnumerable<TResult>> GetAllAsync<TResult>(int take,
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>>? expression = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes)
     {
         take = take <= 0 ? 10 : take;
         var query = BuildQuery(expression, order, true, false, includes);
-        return await query.Select(selector).Take(take).ToListAsync();
+        return await query.Select(selector)
+            .Take(take).ToListAsync(cancellationToken: cancellationToken);
     }
 
     public virtual async Task<Pagination<TResult>> GetAllAsync<TResult>(int current,
@@ -76,6 +81,7 @@ public class BaseRepository<TKey, TEntity> : IBaseRepository<TKey, TEntity> wher
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>>? expression = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes)
     {
         var query = BuildQuery(expression, order, true, false, includes);
@@ -83,7 +89,7 @@ public class BaseRepository<TKey, TEntity> : IBaseRepository<TKey, TEntity> wher
         take = take <= 0 ? 10 : take;
         current = current <= 0 ? 1 : current;
 
-        int count = await query.CountAsync();
+        int count = await query.CountAsync(cancellationToken: cancellationToken);
         if (count == 0)
             return new Pagination<TResult>([], current, 0, take);
 
@@ -95,32 +101,35 @@ public class BaseRepository<TKey, TEntity> : IBaseRepository<TKey, TEntity> wher
             skip = (current - 1) * take;
         }
 
-        var items = await query.Select(selector).Skip(skip).Take(take).ToListAsync();
+        var items = await query.Select(selector)
+            .Skip(skip).Take(take).ToListAsync(cancellationToken: cancellationToken);
         return new Pagination<TResult>(items, current, count, take);
     }
 
     public virtual async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes)
     {
         var query = BuildQuery(expression, null, true, false, includes);
-        return await query.FirstOrDefaultAsync();
+        return await query.FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
     public virtual async Task<TResult?> GetAsync<TResult>(Expression<Func<TEntity, bool>> expression,
         Expression<Func<TEntity, TResult>> selector,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes)
     {
         var query = BuildQuery(expression, null, true, false, includes);
-        return await query.Select(selector).FirstOrDefaultAsync();
+        return await query.Select(selector).FirstOrDefaultAsync(cancellationToken: cancellationToken);
     }
 
-    public virtual async Task AddAsync(TEntity entity)
+    public virtual async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         entity.CreateDate = DateTime.UtcNow;
-        await Db.AddAsync(entity);
+        await Db.AddAsync(entity, cancellationToken);
     }
 
-    public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities)
+    public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
         // ReSharper disable once PossibleMultipleEnumeration
         var entityList = entities.ToList();
@@ -129,7 +138,7 @@ public class BaseRepository<TKey, TEntity> : IBaseRepository<TKey, TEntity> wher
         {
             entity.CreateDate = now;
         }
-        await Db.AddRangeAsync(entityList);
+        await Db.AddRangeAsync(entityList, cancellationToken);
     }
 
     public virtual void Update(TEntity entity)
@@ -149,15 +158,17 @@ public class BaseRepository<TKey, TEntity> : IBaseRepository<TKey, TEntity> wher
         Db.Remove(entity);
     }
 
-    public virtual async Task<int> CountAsync(Expression<Func<TEntity, bool>>? expression = null)
+    public virtual async Task<int> CountAsync(Expression<Func<TEntity, bool>>? expression = null,
+        CancellationToken cancellationToken = default)
     {
         var query = BuildQuery(expression);
-        return await query.CountAsync();
+        return await query.CountAsync(cancellationToken: cancellationToken);
     }
 
-    public virtual async Task<bool> IsExistAsync(Expression<Func<TEntity, bool>>? expression = null)
+    public virtual async Task<bool> IsExistAsync(Expression<Func<TEntity, bool>>? expression = null,
+        CancellationToken cancellationToken = default)
     {
         var query = BuildQuery(expression);
-        return await query.AnyAsync();
+        return await query.AnyAsync(cancellationToken: cancellationToken);
     }
 }

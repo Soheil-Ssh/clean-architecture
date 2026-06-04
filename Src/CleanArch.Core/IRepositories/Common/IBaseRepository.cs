@@ -15,10 +15,12 @@ public interface IBaseRepository<TKey, TEntity> where TEntity : BaseEntity<TKey>
     /// </summary>
     /// <param name="expression">Optional filter expression. If <c>null</c>, all entities are returned.</param>
     /// <param name="order">Optional ordering function.</param>
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
     /// <param name="includes">Expressions specifying related entities to eagerly include.</param>
     /// <returns>A collection of matching entities.</returns>
     Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? expression = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes);
 
     /// <summary>
@@ -28,11 +30,13 @@ public interface IBaseRepository<TKey, TEntity> where TEntity : BaseEntity<TKey>
     /// <param name="selector">The projection expression that defines the result shape.</param>
     /// <param name="expression">Optional filter expression.</param>
     /// <param name="order">Optional ordering function.</param>
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
     /// <param name="includes">Expressions specifying related entities to include.</param>
     /// <returns>A collection of projected results.</returns>
     Task<IEnumerable<TResult>> GetAllAsync<TResult>(Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>>? expression = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes);
 
     /// <summary>
@@ -43,12 +47,14 @@ public interface IBaseRepository<TKey, TEntity> where TEntity : BaseEntity<TKey>
     /// <param name="selector">The projection expression that defines the result shape.</param>
     /// <param name="expression">Optional filter expression.</param>
     /// <param name="order">Optional ordering function.</param>
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
     /// <param name="includes">Expressions specifying related entities to include.</param>
     /// <returns>A collection of projected results, limited to <paramref name="take"/> items.</returns>
     Task<IEnumerable<TResult>> GetAllAsync<TResult>(int take,
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>>? expression = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes);
 
     /// <summary>
@@ -60,21 +66,25 @@ public interface IBaseRepository<TKey, TEntity> where TEntity : BaseEntity<TKey>
     /// <param name="selector">The projection expression that defines the result shape.</param>
     /// <param name="expression">Optional filter expression.</param>
     /// <param name="order">Optional ordering function.</param>
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
     /// <param name="includes">Expressions specifying related entities to include.</param>
     /// <returns>A paginated result containing the items of the requested page and pagination metadata.</returns>
     Task<Pagination<TResult>> GetAllAsync<TResult>(int current, int take,
         Expression<Func<TEntity, TResult>> selector,
         Expression<Func<TEntity, bool>>? expression = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? order = null,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes);
 
     /// <summary>
     /// Asynchronously retrieves the first entity that matches the given filter, with optional included related data.
     /// </summary>
     /// <param name="expression">The filter expression to match a single entity.</param>
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
     /// <param name="includes">Expressions specifying related entities to include.</param>
     /// <returns>The matching entity, or <c>null</c> if no entity is found.</returns>
     public Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes);
 
     /// <summary>
@@ -83,23 +93,27 @@ public interface IBaseRepository<TKey, TEntity> where TEntity : BaseEntity<TKey>
     /// <typeparam name="TResult">The type of the projected result.</typeparam>
     /// <param name="expression">The filter expression to match a single entity.</param>
     /// <param name="selector">The projection expression that defines the result shape.</param>
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
     /// <param name="includes">Expressions specifying related entities to include.</param>
     /// <returns>The projected result, or <c>null</c> if no matching entity is found.</returns>
     public Task<TResult?> GetAsync<TResult>(Expression<Func<TEntity, bool>> expression,
         Expression<Func<TEntity, TResult>> selector,
+        CancellationToken cancellationToken = default,
         params Expression<Func<TEntity, object>>[] includes);
 
     /// <summary>
     /// Asynchronously adds a new entity.
     /// </summary>
     /// <param name="entity">The entity to add.</param>
-    Task AddAsync(TEntity entity);
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
+    Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Asynchronously adds a range of entities.
     /// </summary>
     /// <param name="entities">The collection of entities to add.</param>
-    Task AddRangeAsync(IEnumerable<TEntity> entities);
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
+    Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Marks an existing entity as modified.
@@ -123,13 +137,17 @@ public interface IBaseRepository<TKey, TEntity> where TEntity : BaseEntity<TKey>
     /// Asynchronously counts the number of entities that satisfy the optional filter.
     /// </summary>
     /// <param name="expression">Optional filter expression. If <c>null</c>, counts all entities.</param>
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
     /// <returns>The number of matching entities.</returns>
-    Task<int> CountAsync(Expression<Func<TEntity, bool>>? expression = null);
+    Task<int> CountAsync(Expression<Func<TEntity, bool>>? expression = null,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Asynchronously determines whether any entity satisfies the optional filter.
     /// </summary>
     /// <param name="expression">Optional filter expression. If <c>null</c>, checks for any existing entity.</param>
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
     /// <returns><c>true</c> if at least one matching entity exists; otherwise, <c>false</c>.</returns>
-    Task<bool> IsExistAsync(Expression<Func<TEntity, bool>>? expression = null);
+    Task<bool> IsExistAsync(Expression<Func<TEntity, bool>>? expression = null,
+        CancellationToken cancellationToken = default);
 }
