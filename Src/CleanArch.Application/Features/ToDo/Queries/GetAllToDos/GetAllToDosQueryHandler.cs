@@ -3,6 +3,11 @@ using CleanArch.Core.Specifications.ToDo;
 
 namespace CleanArch.Application.Features.ToDo.Queries.GetAllToDos;
 
+/// <summary>
+/// Get all to dos with pagination and filter query handler
+/// </summary>
+/// <param name="unitOfWork"></param>
+/// <param name="mapper"></param>
 public class GetAllToDosQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     : IRequestHandler<GetAllToDosQuery, Result<Pagination<ToDoDto>>>
 {
@@ -10,6 +15,8 @@ public class GetAllToDosQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
     {
         var filter =
             new ToDoFilterSpecification(request.SearchQuery, request.IsCompleted, request.Page, request.PageSize);
-        return await unitOfWork.ToDoRepository.GetAll(filter, t => mapper.Map<ToDoDto>(t));
+        return await unitOfWork.ToDoRepository.GetAll(filter: filter,
+            selector: t => mapper.Map<ToDoDto>(t),
+            cancellationToken: cancellationToken);
     }
 }

@@ -10,8 +10,8 @@ public class CreateToDoCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
 {
     public async Task<Result> Handle(CreateToDoCommand request, CancellationToken cancellationToken)
     {
-        await unitOfWork.ToDoRepository.AddAsync(mapper.Map<Core.Entities.ToDo.ToDo>(request));
-        await unitOfWork.SaveAsync();
+        await unitOfWork.ToDoRepository.AddAsync(mapper.Map<Core.Entities.ToDo.ToDo>(request), cancellationToken);
+        await unitOfWork.SaveAsync(cancellationToken);
         return Result.Success();
     }
 }

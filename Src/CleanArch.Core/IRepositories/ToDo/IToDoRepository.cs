@@ -15,7 +15,9 @@ public interface IToDoRepository : IBaseRepository<long, Entities.ToDo.ToDo>
     /// <typeparam name="TResult">The type of the projected result.</typeparam>
     /// <param name="filter">The specification containing filtering, ordering, and pagination parameters.</param>
     /// <param name="selector">The projection expression that defines the shape of each result item.</param>
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
     /// <returns>A <see cref="Pagination{T}"/> object containing the requested page of projected items and pagination metadata.</returns>
     Task<Pagination<TResult>> GetAll<TResult>(ToDoFilterSpecification filter,
-        Expression<Func<Entities.ToDo.ToDo, TResult>> selector);
+        Expression<Func<Entities.ToDo.ToDo, TResult>> selector,
+        CancellationToken cancellationToken = default);
 }

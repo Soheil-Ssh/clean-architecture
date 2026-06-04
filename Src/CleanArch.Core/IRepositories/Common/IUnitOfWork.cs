@@ -16,5 +16,6 @@ public interface IUnitOfWork
     /// <summary>
     /// Asynchronously saves all pending changes made within this unit of work.
     /// </summary>
-    Task<int> SaveAsync();
+    /// <param name="cancellationToken">The cancellation token used to cancel the operation.</param>
+    Task<int> SaveAsync(CancellationToken cancellationToken = default);
 }

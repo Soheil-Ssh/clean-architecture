@@ -10,6 +10,6 @@ public class UnitOfWork(ApplicationDbContext context) : IUnitOfWork
     public IToDoRepository ToDoRepository
         => _toDoRepository ??= new ToDoRepository(context);
 
-    public async Task<int> SaveAsync()
-        => await context.SaveChangesAsync();
+    public async Task<int> SaveAsync(CancellationToken cancellationToken = default)
+        => await context.SaveChangesAsync(cancellationToken);
 }

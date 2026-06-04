@@ -10,14 +10,15 @@ public class ToDoRepository(ApplicationDbContext context)
     : BaseRepository<long, Core.Entities.ToDo.ToDo>(context), IToDoRepository
 {
     public async Task<Pagination<TResult>> GetAll<TResult>(ToDoFilterSpecification filter,
-        Expression<Func<Core.Entities.ToDo.ToDo, TResult>> selector)
+        Expression<Func<Core.Entities.ToDo.ToDo, TResult>> selector,
+        CancellationToken cancellationToken = default)
     {
         IQueryable<Core.Entities.ToDo.ToDo> query = Db;
 
         if (filter.Criteria != null)
             query = query.Where(filter.Criteria);
 
-        int count = await query.CountAsync();
+        int count = await query.CountAsync(cancellationToken: cancellationToken);
         if (count == 0)
             return new Pagination<TResult>(new List<TResult>(), filter.CurrentPage, 0, filter.Take);
 
@@ -28,7 +29,7 @@ public class ToDoRepository(ApplicationDbContext context)
             .Skip(filter.Skip)
             .Take(filter.Take)
             .Select(selector)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
 
         return new Pagination<TResult>(items, filter.CurrentPage, count, filter.Take);
     }

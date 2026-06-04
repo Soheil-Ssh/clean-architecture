@@ -13,12 +13,12 @@ public class DeleteToDoCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
     public async Task<Result> Handle(DeleteToDoCommand request, CancellationToken cancellationToken)
     {
         var todo = await unitOfWork.ToDoRepository
-            .GetAsync(t => t.Id == request.Id);
+            .GetAsync(t => t.Id == request.Id, cancellationToken);
         if (todo is null)
             return ToDoErrors.NotFound;
 
         unitOfWork.ToDoRepository.DeletePermanently(todo);
-        await unitOfWork.SaveAsync();
+        await unitOfWork.SaveAsync(cancellationToken);
 
         return Result.Success();
     }

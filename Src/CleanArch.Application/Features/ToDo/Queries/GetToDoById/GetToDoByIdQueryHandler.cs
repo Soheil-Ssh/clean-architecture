@@ -14,7 +14,8 @@ public class GetToDoByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : I
     {
         var todo = await unitOfWork.ToDoRepository
             .GetAsync(expression: t => t.Id == request.Id,
-                selector: t => mapper.Map<ToDoDto>(t));
+                selector: t => mapper.Map<ToDoDto>(t),
+                cancellationToken: cancellationToken);
 
         if (todo is null)
             return ToDoErrors.NotFound;   
