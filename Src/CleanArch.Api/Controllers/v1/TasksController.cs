@@ -2,6 +2,7 @@
 using CleanArch.Api.Contracts.ToDo.Responses;
 using CleanArch.Application.Features.ToDo.Commands.CreateToDo;
 using CleanArch.Application.Features.ToDo.Commands.DeleteToDo;
+using CleanArch.Application.Features.ToDo.Commands.ToggleComplete;
 using CleanArch.Application.Features.ToDo.Commands.UpdateToDo;
 using CleanArch.Application.Features.ToDo.Common;
 using CleanArch.Application.Features.ToDo.Queries.GetAllToDos;
@@ -72,6 +73,18 @@ public class TasksController(IMediator mediator, IMapper mapper) : BaseControlle
     public async Task<IActionResult> Delete(long id)
     {
         var result = await mediator.Send(new DeleteToDoCommand(id));
+        return result.ToActionResult();
+    }
+
+    /// <summary>
+    /// Post action for toggle state of is complete todo
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost("ToggleComplete/{id:long}")]
+    public async Task<IActionResult> ToggleComplete(long id)
+    {
+        var result = await mediator.Send(new ToggleCompleteCommand(id));
         return result.ToActionResult();
     }
 }

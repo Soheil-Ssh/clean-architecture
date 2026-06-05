@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\ToDo\Commands\MarkAsComplete\" />
     <Folder Include="Mappers\" />
   </ItemGroup>
 
